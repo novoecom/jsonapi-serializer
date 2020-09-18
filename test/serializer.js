@@ -272,6 +272,24 @@ describe('Options', function () {
       done(null, json);
     });
 
+    it('should set the meta key (plain value) solution 3', function (done) {
+      var dataSet = [{
+        id: '1',
+        firstName: 'Sandro',
+        lastName: 'Munda',
+      }];
+
+      var json = new JSONAPISerializer('user', {
+        attributes: ['firstName', 'lastName'],
+        meta: (meta) => {
+          return { count: meta.count + 1 }
+        }
+      }).serialize(dataSet, { meta: { count: 2 } });
+
+      expect(json.meta.count).equal(3);
+      done(null, json);
+    });
+
     it('should set the meta key (function)', function (done) {
       var dataSet = {
         id: '1',
