@@ -236,7 +236,7 @@ describe('Options', function () {
   });
 
   describe('Top level meta option', function () {
-    it('should set the meta key (plain value)', function (done) {
+    it('should set the meta key (plain value) solution 1', function (done) {
       var dataSet = {
         id: '1',
         firstName: 'Sandro',
@@ -251,6 +251,24 @@ describe('Options', function () {
       }).serialize(dataSet);
 
       expect(json.meta.count).equal(1);
+      done(null, json);
+    });
+
+    it('should set the meta key (plain value) solution 2', function (done) {
+      var dataSet = [{
+        id: '1',
+        firstName: 'Sandro',
+        lastName: 'Munda',
+      }];
+
+      var json = new JSONAPISerializer('user', {
+        attributes: ['firstName', 'lastName'],
+        meta: {
+          count: 1
+        }
+      }).serialize(dataSet, { meta: { count: 2 } });
+
+      expect(json.meta.count).equal(2);
       done(null, json);
     });
 
